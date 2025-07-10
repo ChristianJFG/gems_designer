@@ -71,6 +71,88 @@ gemShapes.forEach((shape, idx) => {
   paletteDiv.appendChild(btn);
 });
 
+// --- Render shiny color palette in its own bar ---
+const shinyPaletteDiv = document.getElementById('shiny-palette');
+shinyPaletteDiv.innerHTML = '<div class="shiny-label">Shiny Colors</div>';
+
+const shinyColors = [
+  { name: 'Gold', hex: '#FFD700', gradient: 'linear-gradient(135deg, #FFD700 60%, #FFFACD 100%)' },
+  { name: 'Silver', hex: '#C0C0C0', gradient: 'linear-gradient(135deg, #C0C0C0 60%, #F8F8FF 100%)' },
+  { name: 'Rose Gold', hex: '#E6C7C2', gradient: 'linear-gradient(135deg, #E6C7C2 60%, #FFD1DC 100%)' },
+  { name: 'Platinum', hex: '#E5E4E2', gradient: 'linear-gradient(135deg, #E5E4E2 60%, #F8F8FF 100%)' },
+  { name: 'Bronze', hex: '#CD7F32', gradient: 'linear-gradient(135deg, #CD7F32 60%, #FFDAB9 100%)' },
+  { name: 'Diamond', hex: '#E0EFFF', gradient: 'linear-gradient(135deg, #E0EFFF 60%, #FFFFFF 100%)' }
+];
+
+shinyColors.forEach((col) => {
+  const btn = document.createElement('button');
+  btn.className = 'shiny-btn';
+  btn.title = col.name;
+  btn.style.margin = '8px 0';
+  btn.style.padding = '0';
+  btn.style.background = 'none';
+  btn.style.border = 'none';
+  btn.style.display = 'flex';
+  btn.style.alignItems = 'center';
+  btn.style.justifyContent = 'center';
+  btn.style.cursor = 'pointer';
+  // Create a high-res canvas for shiny effect
+  const icon = document.createElement('canvas');
+  icon.width = 48;
+  icon.height = 48;
+  icon.style.width = '36px';
+  icon.style.height = '36px';
+  icon.style.pointerEvents = 'none';
+  const ctx = icon.getContext('2d');
+  // Draw shiny effect
+  // 1. Base color (radial gradient)
+  const grad = ctx.createRadialGradient(24, 24, 8, 24, 24, 24);
+  grad.addColorStop(0, '#fff');
+  grad.addColorStop(0.18, '#fff');
+  grad.addColorStop(0.22, col.hex);
+  grad.addColorStop(0.95, col.hex);
+  grad.addColorStop(1, '#bbb');
+  ctx.beginPath();
+  ctx.arc(24, 24, 22, 0, 2 * Math.PI);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+  // 2. Highlight (ellipse)
+  ctx.save();
+  ctx.globalAlpha = 0.45;
+  ctx.beginPath();
+  ctx.ellipse(18, 16, 8, 4, Math.PI / 6, 0, 2 * Math.PI);
+  ctx.closePath();
+  ctx.fillStyle = '#fff';
+  ctx.shadowColor = '#fff';
+  ctx.shadowBlur = 6;
+  ctx.fill();
+  ctx.restore();
+  // 3. Sparkle
+  ctx.save();
+  ctx.globalAlpha = 0.7;
+  ctx.beginPath();
+  ctx.arc(30, 30, 2, 0, 2 * Math.PI);
+  ctx.fillStyle = '#fff';
+  ctx.shadowColor = '#fff';
+  ctx.shadowBlur = 8;
+  ctx.fill();
+  ctx.restore();
+  btn.appendChild(icon);
+  btn.onclick = function() {
+    colorPicker.value = col.hex;
+    const obj = canvas.getActiveObject();
+    if (obj && obj.set) {
+      obj.set('fill', col.hex);
+      if ('stroke' in obj) {
+        obj.set('stroke', col.hex);
+      }
+      canvas.requestRenderAll();
+    }
+  };
+  shinyPaletteDiv.appendChild(btn);
+});
+
 // Enable controls for all objects (move, scale, rotate)
 canvas.on('object:added', function(e) {
   if (e.target) {

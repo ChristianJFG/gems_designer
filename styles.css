@@ -132,6 +132,45 @@ body {
   margin-top: 0;
   display: block;
 }
+#shiny-palette {
+  width: 140px;
+  background: #fff0f7;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(255, 105, 180, 0.12);
+  padding: 24px 12px 24px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid #ffb6c1;
+  margin-left: 0;
+  margin-right: 0;
+  min-height: 320px;
+}
+.shiny-label {
+  color: #ff69b4;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+.shiny-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #ffb6c1;
+  margin: 6px 0;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #ffb6c1;
+  outline: none;
+  transition: transform 0.1s;
+  display: block;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.shiny-btn:active {
+  transform: scale(0.95);
+}
 @media (max-width: 900px) {
   #container {
     flex-direction: column;
@@ -141,12 +180,13 @@ body {
   .canvas-wrapper {
     padding: 16px;
   }
-  #palette {
+  #palette, #shiny-palette {
     width: 90vw;
     flex-direction: row;
     justify-content: center;
     padding: 16px 0;
     margin-bottom: 16px;
+    min-height: unset;
   }
   .gem-btn {
     margin: 0 8px;
