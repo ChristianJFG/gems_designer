@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nicole's Designer</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+</head>
+<body>
+  <header class="main-header">
+    <h1>Nicole's Designer</h1>
+  </header>
+  <div id="container">
+    <div id="palette">
+      <h2>Gems</h2>
+      <!-- Gem images will go here -->
+    </div>
+    <div class="canvas-wrapper">
+      <div style="display:flex;justify-content:center;align-items:center;gap:16px;margin-bottom:16px;">
+        <input type="color" id="color-picker" value="#ff69b4" title="Change color" style="width:48px;height:48px;border:none;outline:none;cursor:pointer;border-radius:50%;box-shadow:0 2px 8px #ffb6c1;">
+        <button id="duplicate-btn" title="Duplicate selected" style="width:48px;height:48px;border:none;background:#fff0f7;border-radius:50%;box-shadow:0 2px 8px #ffb6c1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff69b4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><rect x="3" y="3" width="13" height="13" rx="2"/></svg>
+        </button>
+      </div>
+      <canvas id="teeth-canvas" width="800" height="400"></canvas>
+      <div id="garbage-bin" title="Drag here to delete">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="12" y="18" width="24" height="20" rx="4" fill="#ffb6c1" stroke="#ff69b4" stroke-width="2"/>
+          <rect x="18" y="10" width="12" height="8" rx="2" fill="#ff69b4"/>
+          <rect x="20" y="6" width="8" height="4" rx="2" fill="#ffb6c1"/>
+          <rect x="22" y="24" width="4" height="10" rx="2" fill="#fff"/>
+          <rect x="28" y="24" width="4" height="10" rx="2" fill="#fff"/>
+          <rect x="16" y="24" width="4" height="10" rx="2" fill="#fff"/>
+        </svg>
+        <div style="text-align:center;color:#ff69b4;font-size:0.9rem;">Delete</div>
+      </div>
+    </div>
+  </div>
+  <button id="export-btn">Export Design</button>
+  <script src="main.js"></script>
+</body>
+</html> 
