@@ -101,6 +101,10 @@ body {
   background: linear-gradient(90deg, #ffb6c1 0%, #ff69b4 100%);
   box-shadow: 0 4px 16px rgba(255, 105, 180, 0.18);
 }
+#restore-btn:hover {
+  background: #ffb6c1;
+  box-shadow: 0 4px 16px rgba(255, 107, 107, 0.18);
+}
 #garbage-bin {
   display: flex;
   flex-direction: column;
