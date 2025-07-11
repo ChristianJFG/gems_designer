@@ -35,7 +35,26 @@ const gemShapes = [
   ], { fill: '#e91e63', stroke: '#ad1457', strokeWidth: 3, scaleX:1, scaleY:1 }), icon: (ctx) => { ctx.save(); ctx.translate(25,25); ctx.rotate(-Math.PI/10); ctx.beginPath(); for(let i=0;i<5;i++){ctx.lineTo(0,20);ctx.translate(0,20);ctx.rotate((Math.PI*2/10));ctx.lineTo(0,-20);ctx.translate(0,-20);ctx.rotate(-(Math.PI*6/10));} ctx.closePath(); ctx.restore(); ctx.fillStyle='#e91e63'; ctx.fill(); ctx.strokeStyle='#ad1457'; ctx.lineWidth=3; ctx.stroke(); } },
   { name: 'Heart', draw: () => new fabric.Path('M 25 30 Q 25 10 50 10 Q 75 10 75 30 Q 75 50 50 70 Q 25 50 25 30 Z', {
     fill: '#f44336', stroke: '#b71c1c', strokeWidth: 3, scaleX:0.5, scaleY:0.5
-  }), icon: (ctx) => { ctx.beginPath(); ctx.moveTo(25,30); ctx.quadraticCurveTo(25,10,50,10); ctx.quadraticCurveTo(75,10,75,30); ctx.quadraticCurveTo(75,50,50,70); ctx.quadraticCurveTo(25,50,25,30); ctx.closePath(); ctx.save(); ctx.scale(0.33,0.33); ctx.translate(0,10); ctx.fillStyle='#f44336'; ctx.fill(); ctx.strokeStyle='#b71c1c'; ctx.lineWidth=3; ctx.stroke(); ctx.restore(); } }
+  }), icon: (ctx) => { ctx.beginPath(); ctx.moveTo(25,30); ctx.quadraticCurveTo(25,10,50,10); ctx.quadraticCurveTo(75,10,75,30); ctx.quadraticCurveTo(75,50,50,70); ctx.quadraticCurveTo(25,50,25,30); ctx.closePath(); ctx.save(); ctx.scale(0.33,0.33); ctx.translate(0,10); ctx.fillStyle='#f44336'; ctx.fill(); ctx.strokeStyle='#b71c1c'; ctx.lineWidth=3; ctx.stroke(); ctx.restore(); } },
+  // Classic Heart shape (more traditional)
+  { name: 'Classic Heart', draw: () => new fabric.Path('M24 38 C 6 26, 6 8, 24 14 C 42 8, 42 26, 24 38 Z', {
+    fill: '#e53935', stroke: '#b71c1c', strokeWidth: 3, scaleX:1.2, scaleY:1.2, left:0, top:0
+  }), icon: (ctx) => {
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(24,38);
+    ctx.bezierCurveTo(6,26,6,8,24,14);
+    ctx.bezierCurveTo(42,8,42,26,24,38);
+    ctx.closePath();
+    ctx.scale(1.2,1.2);
+    ctx.translate(0,0);
+    ctx.fillStyle = '#e53935';
+    ctx.fill();
+    ctx.strokeStyle = '#b71c1c';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    ctx.restore();
+  } }
 ];
 
 const paletteDiv = document.getElementById('palette');
