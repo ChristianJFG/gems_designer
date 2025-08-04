@@ -23,6 +23,133 @@ fabric.Image.fromURL('assets/teeth_model.jpg', function(img) {
   canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
 });
 
+// Add an upload button to change the image
+const uploadBtn = document.createElement('button');
+uploadBtn.id = 'upload-btn';
+uploadBtn.textContent = 'Upload Image';
+uploadBtn.style.margin = '10px';
+uploadBtn.style.padding = '10px';
+uploadBtn.style.cursor = 'pointer';
+document.body.appendChild(uploadBtn);
+
+// Add an input element for file upload
+const fileInput = document.createElement('input');
+fileInput.type = 'file';
+fileInput.accept = 'image/*';
+fileInput.style.display = 'none';
+document.body.appendChild(fileInput);
+
+uploadBtn.addEventListener('click', () => fileInput.click());
+
+fileInput.addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      fabric.Image.fromURL(e.target.result, function(img) {
+        const scale = Math.max(
+          canvas.width / img.width,
+          canvas.height / img.height
+        );
+        img.set({
+          left: 0,
+          top: 0,
+          scaleX: scale,
+          scaleY: scale,
+          selectable: false,
+          evented: false
+        });
+        canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+// Add zoom in, zoom out, and move functionality
+const zoomInBtn = document.createElement('button');
+zoomInBtn.textContent = 'Zoom In';
+zoomInBtn.style.margin = '10px';
+zoomInBtn.style.padding = '10px';
+zoomInBtn.style.cursor = 'pointer';
+document.body.appendChild(zoomInBtn);
+
+const zoomOutBtn = document.createElement('button');
+zoomOutBtn.textContent = 'Zoom Out';
+zoomOutBtn.style.margin = '10px';
+zoomOutBtn.style.padding = '10px';
+zoomOutBtn.style.cursor = 'pointer';
+document.body.appendChild(zoomOutBtn);
+
+const moveImageBtn = document.createElement('button');
+moveImageBtn.textContent = 'Move Image';
+moveImageBtn.style.margin = '10px';
+moveImageBtn.style.padding = '10px';
+moveImageBtn.style.cursor = 'pointer';
+document.body.appendChild(moveImageBtn);
+
+// Remove zoom in and zoom out buttons
+document.body.removeChild(zoomInBtn);
+document.body.removeChild(zoomOutBtn);
+
+// Remove the move image button
+document.body.removeChild(moveImageBtn);
+
+let isMoving = false;
+
+moveImageBtn.addEventListener('click', () => {
+  isMoving = !isMoving;
+  const bgImage = canvas.backgroundImage;
+  if (bgImage) {
+    bgImage.selectable = isMoving;
+    bgImage.evented = isMoving;
+    canvas.renderAll();
+  }
+});
+
+// Enable mouse-based zoom and drag functionality
+canvas.on('mouse:wheel', function(opt) {
+  const delta = opt.e.deltaY;
+  let zoom = canvas.getZoom();
+  zoom *= 0.999 ** delta;
+  if (zoom > 3) zoom = 3;
+  if (zoom < 0.5) zoom = 0.5;
+  canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
+  opt.e.preventDefault();
+  opt.e.stopPropagation();
+});
+
+let isDragging = false;
+let lastPosX;
+let lastPosY;
+
+canvas.on('mouse:down', function(opt) {
+  const evt = opt.e;
+  if (evt.altKey) {
+    isDragging = true;
+    canvas.selection = false;
+    lastPosX = evt.clientX;
+    lastPosY = evt.clientY;
+  }
+});
+
+canvas.on('mouse:move', function(opt) {
+  if (isDragging) {
+    const e = opt.e;
+    const vpt = canvas.viewportTransform;
+    vpt[4] += e.clientX - lastPosX;
+    vpt[5] += e.clientY - lastPosY;
+    canvas.requestRenderAll();
+    lastPosX = e.clientX;
+    lastPosY = e.clientY;
+  }
+});
+
+canvas.on('mouse:up', function() {
+  isDragging = false;
+  canvas.selection = true;
+});
+
 // List of gem shapes (add more kinds)
 const gemShapes = [
   { name: 'Circle', draw: () => new fabric.Circle({ radius: 25, fill: '#00bcd4', stroke: '#0097a7', strokeWidth: 3 }), icon: (ctx) => { ctx.beginPath(); ctx.arc(25,25,20,0,2*Math.PI); ctx.fillStyle='#00bcd4'; ctx.fill(); ctx.strokeStyle='#0097a7'; ctx.lineWidth=3; ctx.stroke(); } },
