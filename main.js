@@ -326,23 +326,13 @@ exportBtn.onclick = function() {
 
 // Restore functionality - clear canvas and start fresh
 const restoreBtn = document.getElementById('restore-btn');
+// Modify the restore button functionality to keep the current image
 restoreBtn.onclick = function() {
+  const currentBgImage = canvas.backgroundImage;
   canvas.clear();
-  fabric.Image.fromURL('assets/teeth_model.jpg', function(img) {
-    const scale = Math.min(
-      canvas.width / img.width,
-      canvas.height / img.height
-    );
-    img.set({
-      left: 0,
-      top: 0,
-      scaleX: scale,
-      scaleY: scale,
-      selectable: false,
-      evented: false
-    });
-    canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
-  });
+  if (currentBgImage) {
+    canvas.setBackgroundImage(currentBgImage, canvas.renderAll.bind(canvas));
+  }
 };
 
 // --- Drag to Garbage Bin to Delete ---
