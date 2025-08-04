@@ -1,10 +1,14 @@
 // Initialize Fabric.js canvas
 const canvas = new fabric.Canvas('teeth-canvas');
 
+// Adjust canvas size to fit the image better
+canvas.setWidth(800);
+canvas.setHeight(700);
+
 // Set teeth image as background
 fabric.Image.fromURL('assets/teeth_model.jpg', function(img) {
   // Scale image to fit canvas
-  const scale = Math.min(
+  const scale = Math.max(
     canvas.width / img.width,
     canvas.height / img.height
   );
@@ -196,9 +200,7 @@ exportBtn.onclick = function() {
 // Restore functionality - clear canvas and start fresh
 const restoreBtn = document.getElementById('restore-btn');
 restoreBtn.onclick = function() {
-  // Clear all objects from canvas but keep background image
   canvas.clear();
-  // Restore the background image
   fabric.Image.fromURL('assets/teeth_model.jpg', function(img) {
     const scale = Math.min(
       canvas.width / img.width,
@@ -311,4 +313,4 @@ function rgbToHex(rgb) {
       .toString(16)
       .slice(1)
   );
-} 
+}
